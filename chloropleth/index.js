@@ -17,22 +17,57 @@ var albersProjection = d3.geoAlbersUsa()  //tell it which projection to use
 path = d3.geoPath()
     .projection(albersProjection);        //tell it to use the projection that we just made to convert lat/long to pixels
 
+var stateLookUp=d3.map();
+
+var colorscale= d3.scaleLinear().range(['white', 'blue']);
+
+svg.append('text')
+    .attr('x', 100)
+    .attr('y', 100)
+    .attr('class', 'textBox')
+    .text('');
+
 
 //import the data from the .csv file
-d3.json('./cb_2016_us_state_20m.json', function(dataIn){
+queue()
+    .defer(d3.json, "./cb_2016_us_state_20m.json")
+    .defer(d3.csv, "./statePop.csv")
+    .await(function(err, stateData, popData) {
+
+    popData.forEach(function(d){
+        stateLookUp.set(d.name, d.population)
+    });
+
+    //console.log(stateLookUp.get('Maine'));
+
+    colorscale.domain([0, d3.max(
+             popData.map(
+                    function(d){
+                        return d.population;
+            }))]);
 
     svg.selectAll("path")               //make empty selection
-        .data(dataIn.features)          //bind to the features array in the map data
+        .data(stateData.features)          //bind to the features array in the map data
         .enter()
         .append("path")                 //add the paths to the DOM
         .attr("d", path)                //actually draw them
         .attr("class", "feature")
-        .attr('fill','gainsboro')
+        .attr('fill',function(d){
+            //console.log(d.properties.NAME);
+            return colorscale(stateLookUp.get(d.properties.NAME))
+            })
         .attr('stroke','white')
-        .attr('stroke-width',.2);
+        .attr('stroke-width',.2)
+        .on('mouseover', function(d){
+            //console.log(d.properties.NAME);
+            d3.select('.textBox')
+                .text(d.properties.NAME)
+        })
 
 
-  });
+
+    });
+
 
 
 
