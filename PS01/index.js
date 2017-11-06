@@ -12,6 +12,9 @@ var div = d3.select("body").append("div")
     .attr("class", "tooltip")
     .style("opacity", 0);
 
+svg.append('text')
+    .text('Places I have Lived')
+    .attr('transform','translate(200, 100)');
 
 //set up the projection for the map
 var albersProjection = d3.geoAlbersUsa()  //tell it which projection to use
@@ -26,10 +29,6 @@ var stateLookup = d3.map();
 
 var colorScale = d3.scaleLinear().range(['white','blue']);
 
-
-svg.append('text')
-    .text('Places I have Lived')
-    .attr('transform','translate(20, 0)');
 
 queue()
     .defer(d3.json, "./cb_2016_us_state_20m.json")
@@ -64,13 +63,15 @@ queue()
             .attr('cy', function(d){return albersProjection([d.long, d.lat])[1]})
             .attr('r', 10)
             .attr('fill', 'purple')
+            .attr('data-toggle', 'tooltip')
             .on("mouseover", function(d) {
                 div.transition()
                     .duration(10)
                     .style("opacity", .9);
-                div.html('Boston, MA')
-                    .style("left", (d3.event.pageX) + "px")
-                    .style("top", (d3.event.pageY - 28) + "px");
+                div.html('Boston, MA: Post-graduation')
+                    .append('text', 'hello')
+                    .style("left", '800px')
+                    .style("top", '500px');
             })
             .on("mouseout", function(d) {
                 div.transition()
@@ -85,7 +86,22 @@ queue()
             .attr('cx', function(d){return albersProjection([d.long, d.lat])[0]})
             .attr('cy', function(d){return albersProjection([d.long, d.lat])[1]})
             .attr('r', 5)
-            .attr('fill', 'grey');
+            .attr('fill', 'grey')
+            .attr('data-toggle', 'tooltip')
+            .on("mouseover", function(d) {
+                div.transition()
+                    .duration(10)
+                    .style("opacity", .9);
+                div.html('Buffalo, NY: High School')
+                    .append('text', 'hello')
+                    .attr("left", (d3.event.pageX - 500) + "px")
+                    .attr("top", (d3.event.pageY - 500) + "px");
+            })
+            .on("mouseout", function(d) {
+                div.transition()
+                    .duration(1000)
+                    .style("opacity", 0);
+            });
 
         svg.selectAll('circle3')
             .data([{lat:43.1610, long:-77.6109}])
@@ -94,7 +110,21 @@ queue()
             .attr('cx', function(d){return albersProjection([d.long, d.lat])[0]})
             .attr('cy', function(d){return albersProjection([d.long, d.lat])[1]})
             .attr('r', 5)
-            .attr('fill', 'blue');
+            .attr('fill', 'blue')
+            .on("mouseover", function(d) {
+                div.transition()
+                    .duration(10)
+                    .style("opacity", .9);
+                div.html('Rochester, NY: Attended University of Rochester')
+                    .append('text', 'hello')
+                    .attr("left", (d3.event.pageX ) + "px")
+                    .attr("top", (d3.event.pageY ) + "px");
+            })
+            .on("mouseout", function(d) {
+                div.transition()
+                    .duration(1000)
+                    .style("opacity", 0);
+            });
 
 
 
