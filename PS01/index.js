@@ -69,9 +69,8 @@ queue()
                     .duration(10)
                     .style("opacity", .9);
                 div.html('Boston, MA: Post-graduation')
-                    .append('text', 'hello')
-                    .style("left", '800px')
-                    .style("top", '500px');
+                    .style("left", (d3.event.pageX) + "px")
+                    .style("top", (d3.event.pageY - 28) + "px");
             })
             .on("mouseout", function(d) {
                 div.transition()
@@ -93,9 +92,8 @@ queue()
                     .duration(10)
                     .style("opacity", .9);
                 div.html('Buffalo, NY: High School')
-                    .append('text', 'hello')
-                    .attr("left", (d3.event.pageX - 500) + "px")
-                    .attr("top", (d3.event.pageY - 500) + "px");
+                    .style("left", (d3.event.pageX) + "px")
+                    .style("top", (d3.event.pageY - 28) + "px");
             })
             .on("mouseout", function(d) {
                 div.transition()
@@ -116,9 +114,8 @@ queue()
                     .duration(10)
                     .style("opacity", .9);
                 div.html('Rochester, NY: Attended University of Rochester')
-                    .append('text', 'hello')
-                    .attr("left", (d3.event.pageX ) + "px")
-                    .attr("top", (d3.event.pageY ) + "px");
+                    .style("left", (d3.event.pageX) + "px")
+                    .style("top", (d3.event.pageY - 28) + "px");
             })
             .on("mouseout", function(d) {
                 div.transition()
