@@ -10,7 +10,9 @@ var svg = d3.select('svg')
 
 var div = d3.select("body").append("div")
     .attr("class", "tooltip")
-    .style("opacity", 0);
+    .attr('x', 100)
+    .attr('y', 300)
+    .text('');
 
 svg.append('text')
     .text('Places I have Lived')
