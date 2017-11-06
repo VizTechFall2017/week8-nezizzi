@@ -8,6 +8,11 @@ var svg = d3.select('svg')
     .append('g')
     .attr('transform', 'translate(' + marginLeft + ',' + marginTop + ')');
 
+var div = d3.select("body").append("div")
+    .attr("class", "tooltip")
+    .style("opacity", 0);
+
+
 //set up the projection for the map
 var albersProjection = d3.geoAlbersUsa()  //tell it which projection to use
     .scale(700)                           //tell it how big the map should be
@@ -20,6 +25,11 @@ path = d3.geoPath()
 var stateLookup = d3.map();
 
 var colorScale = d3.scaleLinear().range(['white','blue']);
+
+
+svg.append('text')
+    .text('Places I have Lived')
+    .attr('transform','translate(20, 0)');
 
 queue()
     .defer(d3.json, "./cb_2016_us_state_20m.json")
@@ -58,7 +68,7 @@ queue()
                 div.transition()
                     .duration(10)
                     .style("opacity", .9);
-                div.html(d.text)
+                div.html('Boston, MA')
                     .style("left", (d3.event.pageX) + "px")
                     .style("top", (d3.event.pageY - 28) + "px");
             })
